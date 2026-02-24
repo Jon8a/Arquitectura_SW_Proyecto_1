@@ -1,6 +1,4 @@
-# Sistema de Identificación de Operarios - TM-13
-
-Sistema de login y monitorización para operarios de máquinas. Parte del Sprint 1 de Tablero TM.
+# Sistema de Incidencias
 
 ## 🚀 Instalación
 
