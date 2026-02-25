@@ -16,7 +16,6 @@
             min-height: 100vh;
         }
 
-        /* ------ Header ------ */
         .header {
             background: rgba(255, 255, 255, 0.04);
             backdrop-filter: blur(20px);
@@ -140,7 +139,6 @@
             transform: translateY(-1px);
         }
 
-        /* ------ Main content ------ */
         .main {
             max-width: 1100px;
             margin: 0 auto;
@@ -153,7 +151,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ------ Alerts ------ */
         .alert {
             padding: 14px 20px;
             margin-bottom: 24px;
@@ -168,40 +165,14 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .alert-danger {
-            background: rgba(255, 71, 87, 0.12);
-            color: #ff6b7a;
-            border: 1px solid rgba(255, 71, 87, 0.25);
-        }
-        .alert-success {
-            background: rgba(46, 213, 115, 0.12);
-            color: #5dde8e;
-            border: 1px solid rgba(46, 213, 115, 0.25);
-        }
-        .alert-info {
-            background: rgba(102, 126, 234, 0.12);
-            color: #8fa4f0;
-            border: 1px solid rgba(102, 126, 234, 0.25);
-        }
+        .alert-danger  { background: rgba(255,71,87,0.12);   color: #ff6b7a; border: 1px solid rgba(255,71,87,0.25); }
+        .alert-success { background: rgba(46,213,115,0.12);  color: #5dde8e; border: 1px solid rgba(46,213,115,0.25); }
+        .alert-info    { background: rgba(102,126,234,0.12); color: #8fa4f0; border: 1px solid rgba(102,126,234,0.25); }
 
-        /* ------ Welcome section ------ */
-        .welcome {
-            margin-bottom: 32px;
-        }
+        .welcome { margin-bottom: 32px; }
+        .welcome h1 { font-size: 1.8rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
+        .welcome p  { color: rgba(255,255,255,0.45); font-size: 0.95rem; }
 
-        .welcome h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 4px;
-        }
-
-        .welcome p {
-            color: rgba(255, 255, 255, 0.45);
-            font-size: 0.95rem;
-        }
-
-        /* ------ Stats grid ------ */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -210,52 +181,30 @@
         }
 
         .stat-card {
-            background: rgba(255, 255, 255, 0.04);
+            background: rgba(255,255,255,0.04);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255,255,255,0.08);
             border-radius: 16px;
             padding: 24px;
             transition: transform 0.2s ease, border-color 0.3s ease;
         }
 
-        .stat-card:hover {
-            transform: translateY(-3px);
-            border-color: rgba(102, 126, 234, 0.3);
-        }
+        .stat-card:hover { transform: translateY(-3px); border-color: rgba(102,126,234,0.3); }
+        .stat-card .stat-icon  { font-size: 28px; margin-bottom: 12px; }
+        .stat-card .stat-label { font-size: 0.75rem; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+        .stat-card .stat-value { font-size: 1.4rem; font-weight: 700; color: #fff; }
 
-        .stat-card .stat-icon {
-            font-size: 28px;
-            margin-bottom: 12px;
-        }
-
-        .stat-card .stat-label {
-            font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.45);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 4px;
-        }
-
-        .stat-card .stat-value {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #fff;
-        }
-
-        /* ------ Glass card ------ */
         .card {
-            background: rgba(255, 255, 255, 0.04);
+            background: rgba(255,255,255,0.04);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255,255,255,0.08);
             border-radius: 16px;
             padding: 28px;
             margin-bottom: 24px;
             transition: border-color 0.3s ease;
         }
 
-        .card:hover {
-            border-color: rgba(255, 255, 255, 0.15);
-        }
+        .card:hover { border-color: rgba(255,255,255,0.15); }
 
         .card h2 {
             font-size: 1.15rem;
@@ -278,35 +227,16 @@
             font-size: 16px;
         }
 
-        /* ------ Info rows ------ */
         .info-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 14px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
         }
-
-        .info-row:last-child {
-            border-bottom: none;
-        }
-
-        .info-row .label {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.85rem;
-        }
-
-        .info-row .value {
-            color: #fff;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        /* ------ Section divider ------ */
-        .admin-section {
-            animation: fadeIn 0.8s ease both;
-            animation-delay: 0.2s;
-        }
+        .info-row:last-child { border-bottom: none; }
+        .info-row .label { color: rgba(255,255,255,0.5); font-size: 0.85rem; }
+        .info-row .value { color: #fff; font-weight: 600; font-size: 0.9rem; }
 
         .section-divider {
             display: flex;
@@ -316,55 +246,29 @@
         }
 
         .section-divider::before,
-        .section-divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-        }
+        .section-divider::after { content: ''; flex: 1; height: 1px; }
 
         .section-divider.jefe::before,
-        .section-divider.jefe::after {
-            background: linear-gradient(90deg, transparent, rgba(255, 159, 67, 0.3), transparent);
-        }
-
+        .section-divider.jefe::after    { background: linear-gradient(90deg, transparent, rgba(255,159,67,0.3), transparent); }
         .section-divider.operario::before,
-        .section-divider.operario::after {
-            background: linear-gradient(90deg, transparent, rgba(46, 213, 115, 0.3), transparent);
-        }
+        .section-divider.operario::after { background: linear-gradient(90deg, transparent, rgba(46,213,115,0.3), transparent); }
 
-
-
-        .section-divider span {
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            white-space: nowrap;
-        }
-
-        .section-divider.jefe span { color: #ffb347; }
+        .section-divider span { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; white-space: nowrap; }
+        .section-divider.jefe span    { color: #ffb347; }
         .section-divider.operario span { color: #5dde8e; }
 
-
-        /* ------ Register form ------ */
         .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 16px;
         }
 
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group.full-width {
-            grid-column: 1 / -1;
-        }
+        .form-group { display: flex; flex-direction: column; }
+        .form-group.full-width { grid-column: 1 / -1; }
 
         .form-group label {
             font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255,255,255,0.5);
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.8px;
@@ -372,10 +276,11 @@
         }
 
         .form-group input,
-        .form-group select {
+        .form-group select,
+        .form-group textarea {
             padding: 12px 16px;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
             border-radius: 10px;
             color: #fff;
             font-family: 'Inter', sans-serif;
@@ -384,15 +289,15 @@
             transition: all 0.3s ease;
         }
 
-        .form-group input::placeholder {
-            color: rgba(255, 255, 255, 0.25);
-        }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder { color: rgba(255,255,255,0.25); }
 
         .form-group input:focus,
-        .form-group select:focus {
+        .form-group select:focus,
+        .form-group textarea:focus {
             border-color: #667eea;
-            background: rgba(102, 126, 234, 0.08);
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.12);
+            background: rgba(102,126,234,0.08);
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.12);
         }
 
         .form-group select {
@@ -403,10 +308,9 @@
             background-position: right 14px center;
         }
 
-        .form-group select option {
-            background: #1a1a2e;
-            color: #fff;
-        }
+        .form-group select option { background: #1a1a2e; color: #fff; }
+
+        .form-group textarea { resize: vertical; min-height: 80px; }
 
         .btn-register {
             padding: 13px 28px;
@@ -420,53 +324,39 @@
             cursor: pointer;
             transition: all 0.3s ease;
             margin-top: 8px;
+            width: 100%;
         }
 
         .btn-register:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 6px 20px rgba(102,126,234,0.4);
         }
 
-        /* ------ Users table ------ */
-        .table-wrapper {
-            overflow-x: auto;
-            margin-top: 4px;
-        }
+        .table-wrapper { overflow-x: auto; margin-top: 4px; }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+        table { width: 100%; border-collapse: collapse; }
 
         thead th {
             text-align: left;
             padding: 12px 16px;
             font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.4);
+            color: rgba(255,255,255,0.4);
             text-transform: uppercase;
             letter-spacing: 1px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
         }
 
-        tbody tr {
-            transition: background 0.2s;
-        }
-
-        tbody tr:hover {
-            background: rgba(255, 255, 255, 0.03);
-        }
+        tbody tr { transition: background 0.2s; }
+        tbody tr:hover { background: rgba(255,255,255,0.03); }
 
         tbody td {
             padding: 14px 16px;
             font-size: 0.88rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            color: rgba(255,255,255,0.85);
         }
 
-        tbody td .user-cell {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        tbody td .user-cell { display: flex; align-items: center; gap: 10px; }
 
         tbody td .mini-avatar {
             width: 30px;
@@ -479,13 +369,14 @@
             font-size: 12px;
             font-weight: 700;
             color: #fff;
+            flex-shrink: 0;
         }
 
         .btn-delete {
             padding: 6px 14px;
-            background: rgba(255, 71, 87, 0.1);
+            background: rgba(255,71,87,0.1);
             color: #ff6b7a;
-            border: 1px solid rgba(255, 71, 87, 0.2);
+            border: 1px solid rgba(255,71,87,0.2);
             border-radius: 8px;
             font-family: 'Inter', sans-serif;
             font-size: 0.75rem;
@@ -494,11 +385,15 @@
             transition: all 0.2s;
         }
 
-        .btn-delete:hover {
-            background: rgba(255, 71, 87, 0.25);
+        .btn-delete:hover { background: rgba(255,71,87,0.25); }
+
+        .empty-row td {
+            color: rgba(255,255,255,0.3) !important;
+            text-align: center;
+            padding: 28px 16px !important;
+            font-style: italic;
         }
 
-        /* ------ Sensor monitoring ------ */
         .sensor-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -507,9 +402,9 @@
         }
 
         .sensor-card {
-            background: rgba(255, 255, 255, 0.04);
+            background: rgba(255,255,255,0.04);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255,255,255,0.08);
             border-radius: 16px;
             padding: 24px;
             text-align: center;
@@ -521,111 +416,58 @@
         .sensor-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             height: 3px;
             border-radius: 16px 16px 0 0;
             transition: background 0.4s ease;
         }
 
-        .sensor-card.normal::before { background: linear-gradient(90deg, #2ed573, #7bed9f); }
+        .sensor-card.normal::before     { background: linear-gradient(90deg, #2ed573, #7bed9f); }
         .sensor-card.advertencia::before { background: linear-gradient(90deg, #ff9f43, #ffc048); }
-        .sensor-card.critico::before { background: linear-gradient(90deg, #ff4757, #ff6b81); }
+        .sensor-card.critico::before     { background: linear-gradient(90deg, #ff4757, #ff6b81); }
+        .sensor-card:hover { transform: translateY(-3px); border-color: rgba(255,255,255,0.15); }
 
-        .sensor-card:hover {
-            transform: translateY(-3px);
-            border-color: rgba(255, 255, 255, 0.15);
-        }
+        .sensor-icon  { font-size: 32px; margin-bottom: 12px; }
+        .sensor-label { font-size: 0.75rem; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .sensor-value { font-size: 2rem; font-weight: 700; color: #fff; transition: color 0.4s ease; }
+        .sensor-unit  { font-size: 0.9rem; font-weight: 400; color: rgba(255,255,255,0.5); margin-left: 4px; }
 
-        .sensor-icon {
-            font-size: 32px;
-            margin-bottom: 12px;
-        }
-
-        .sensor-label {
-            font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.45);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-        }
-
-        .sensor-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #fff;
-            transition: color 0.4s ease;
-        }
-
-        .sensor-unit {
-            font-size: 0.9rem;
-            font-weight: 400;
-            color: rgba(255, 255, 255, 0.5);
-            margin-left: 4px;
-        }
-
-        .sensor-card.normal .sensor-value { color: #5dde8e; }
+        .sensor-card.normal .sensor-value     { color: #5dde8e; }
         .sensor-card.advertencia .sensor-value { color: #ffb347; }
-        .sensor-card.critico .sensor-value { color: #ff6b7a; }
+        .sensor-card.critico .sensor-value     { color: #ff6b7a; }
 
         .status-dot {
             display: inline-block;
-            width: 10px;
-            height: 10px;
+            width: 10px; height: 10px;
             border-radius: 50%;
             margin-right: 8px;
             vertical-align: middle;
         }
 
-        .status-dot.normal { background: #2ed573; box-shadow: 0 0 8px rgba(46, 213, 115, 0.5); }
-        .status-dot.advertencia { background: #ff9f43; box-shadow: 0 0 8px rgba(255, 159, 67, 0.5); }
-        .status-dot.critico { background: #ff4757; box-shadow: 0 0 8px rgba(255, 71, 87, 0.5); animation: blink 1s ease-in-out infinite; }
+        .status-dot.normal     { background: #2ed573; box-shadow: 0 0 8px rgba(46,213,115,0.5); }
+        .status-dot.advertencia { background: #ff9f43; box-shadow: 0 0 8px rgba(255,159,67,0.5); }
+        .status-dot.critico     { background: #ff4757; box-shadow: 0 0 8px rgba(255,71,87,0.5); animation: blink 1s ease-in-out infinite; }
 
         @keyframes blink {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.3; }
         }
 
-        .sensor-timestamp {
-            font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.3);
-            margin-top: 20px;
-            text-align: right;
-        }
+        .sensor-timestamp { font-size: 0.7rem; color: rgba(255,255,255,0.3); margin-top: 20px; text-align: right; }
 
-        @media (max-width: 640px) {
-            .sensor-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* ------ Responsive ------ */
-        @media (max-width: 640px) {
-            .header {
-                flex-direction: column;
-                gap: 12px;
-                padding: 16px;
-            }
-            .header-right {
-                width: 100%;
-                justify-content: space-between;
-            }
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            .stats-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-            .welcome h1 {
-                font-size: 1.4rem;
-            }
+        @media (max-width: 768px) {
+            .sensor-grid  { grid-template-columns: 1fr; }
+            .form-grid    { grid-template-columns: 1fr; }
+            .stats-grid   { grid-template-columns: 1fr 1fr; }
+            .welcome h1   { font-size: 1.4rem; }
+            .header       { flex-direction: column; gap: 12px; padding: 16px; }
+            .header-right { width: 100%; justify-content: space-between; }
         }
     </style>
 </head>
 <body>
     {% set rol_labels = {'operario': 'Operario', 'jefe_operarios': 'Jefe de Operarios'} %}
-    <!-- Header -->
+
     <div class="header">
         <div class="header-left">
             <div class="header-logo">🔧</div>
@@ -644,9 +486,8 @@
         </div>
     </div>
 
-    <!-- Main Content -->
     <div class="main">
-        <!-- Flash messages -->
+
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
@@ -655,13 +496,11 @@
             {% endif %}
         {% endwith %}
 
-        <!-- Welcome -->
         <div class="welcome">
             <h1>Bienvenido, {{ session.nombre_completo }} 👋</h1>
             <p>Panel de control · {{ rol_labels.get(session.rol, session.rol) }}</p>
         </div>
 
-        <!-- Stats -->
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-icon">👤</div>
@@ -693,7 +532,6 @@
             {% endif %}
         </div>
 
-        <!-- User Info Card -->
         <div class="card">
             <h2><span class="card-icon">📊</span> Información de Usuario</h2>
             <div class="info-row">
@@ -714,7 +552,6 @@
             </div>
         </div>
 
-        <!-- ============ SENSOR MONITORING (all roles) ============ -->
         <div class="section-divider operario">
             <span>📡 Monitor de Máquina en Tiempo Real</span>
         </div>
@@ -741,105 +578,164 @@
             <div class="sensor-timestamp">Última actualización: <span id="sensor-time">--</span></div>
         </div>
 
-        <!-- ============ OPERARIO SECTION ============ -->
         {% if session.rol == 'operario' %}
+
         <div class="section-divider operario">
             <span>🔧 Mi Área de Trabajo</span>
         </div>
 
         <div class="card">
-            <h2><span class="card-icon">📋</span> Mis Incidencias</h2>
-            <p style="color: rgba(255,255,255,0.5); line-height: 1.6;">
-                Desde aquí podrás registrar y consultar tus incidencias. Funcionalidad pendiente de integración con TM-14.
-            </p>
-        </div>
-        {% endif %}
-
-
-
-        <!-- ============ JEFE DE OPERARIOS SECTION ============ -->
-        {% if session.rol == 'jefe_operarios' %}
-        <div class="admin-section">
-            <div class="section-divider jefe">
-                <span>📊 Supervisión y Gestión</span>
-            </div>
-
-            <!-- Register new user -->
-            <div class="card">
-                <h2><span class="card-icon">➕</span> Registrar Nuevo Usuario</h2>
-                <form method="POST" action="{{ url_for('registrar') }}">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>Nombre Completo</label>
-                            <input type="text" name="nombre_completo" placeholder="Ej: Carlos López" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Nombre de Usuario</label>
-                            <input type="text" name="nombre_usuario" placeholder="Ej: clopez" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Contraseña</label>
-                            <input type="password" name="password" placeholder="••••••••" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Rol</label>
-                            <select name="rol">
-                                <option value="operario">Operario</option>
-                                <option value="jefe_operarios">Jefe de Operarios</option>
-
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn-register">✚ Crear Usuario</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Users list -->
-            <div class="card">
-                <h2><span class="card-icon">👥</span> Usuarios Registrados</h2>
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Usuario</th>
-                                <th>Nombre Completo</th>
-                                <th>Rol</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for u in usuarios %}
-                            <tr>
-                                <td>#{{ u.id }}</td>
-                                <td>
-                                    <div class="user-cell">
-                                        <div class="mini-avatar">{{ u.nombre_completo[0] }}</div>
-                                        {{ u.nombre_usuario }}
-                                    </div>
-                                </td>
-                                <td>{{ u.nombre_completo }}</td>
-                                <td><span class="role-tag {{ u.rol }}">{{ rol_labels.get(u.rol, u.rol) }}</span></td>
-                                <td>
-                                    {% if u.id != session.usuario_id %}
-                                    <form method="POST" action="{{ url_for('eliminar_usuario', usuario_id=u.id) }}" style="display:inline;"
-                                          onsubmit="return confirm('¿Eliminar a {{ u.nombre_usuario }}?')">
-                                        <button type="submit" class="btn-delete">🗑 Eliminar</button>
-                                    </form>
-                                    {% else %}
-                                    <span style="color: rgba(255,255,255,0.25); font-size: 0.8rem;">Tú</span>
-                                    {% endif %}
-                                </td>
-                            </tr>
+            <h2><span class="card-icon">✏️</span> Registrar Actividad en Máquina</h2>
+            <form method="POST" action="{{ url_for('registrar_actividad') }}">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Máquina</label>
+                        <select name="maquina_id" required>
+                            <option value="" disabled selected>Selecciona una máquina…</option>
+                            {% for m in maquinas %}
+                                <option value="{{ m.id }}">{{ m.nombre }}{% if m.descripcion %} — {{ m.descripcion }}{% endif %}</option>
                             {% endfor %}
-                        </tbody>
-                    </table>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Actividad realizada</label>
+                        <input type="text" name="actividad"
+                               placeholder="Ej: Cambio de matriz, ajuste de presión…"
+                               maxlength="300" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn-register">📌 Registrar actividad</button>
+                    </div>
                 </div>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2><span class="card-icon">🗂️</span> Mis Últimas Actividades</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Máquina</th>
+                            <th>Actividad</th>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody id="body-mis-registros">
+                        <tr class="empty-row"><td colspan="4">Cargando…</td></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
+
         {% endif %}
+
+
+       
+        {% if session.rol == 'jefe_operarios' %}
+
+        <div class="section-divider jefe">
+            <span>📊 Supervisión y Gestión</span>
+        </div>
+
+        
+        <div class="card">
+            <h2><span class="card-icon">➕</span> Registrar Nuevo Usuario</h2>
+            <form method="POST" action="{{ url_for('registrar') }}">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Nombre Completo</label>
+                        <input type="text" name="nombre_completo" placeholder="Ej: Carlos López" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre de Usuario</label>
+                        <input type="text" name="nombre_usuario" placeholder="Ej: clopez" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Contraseña</label>
+                        <input type="password" name="password" placeholder="••••••••" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Rol</label>
+                        <select name="rol">
+                            <option value="operario">Operario</option>
+                            <option value="jefe_operarios">Jefe de Operarios</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn-register">✚ Crear Usuario</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+       
+        <div class="card">
+            <h2><span class="card-icon">👥</span> Usuarios Registrados</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Usuario</th>
+                            <th>Nombre Completo</th>
+                            <th>Rol</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for u in usuarios %}
+                        <tr>
+                            <td>#{{ u.id }}</td>
+                            <td>
+                                <div class="user-cell">
+                                    <div class="mini-avatar">{{ u.nombre_completo[0] }}</div>
+                                    {{ u.nombre_usuario }}
+                                </div>
+                            </td>
+                            <td>{{ u.nombre_completo }}</td>
+                            <td><span class="role-tag {{ u.rol }}">{{ rol_labels.get(u.rol, u.rol) }}</span></td>
+                            <td>
+                                {% if u.id != session.usuario_id %}
+                                <form method="POST" action="{{ url_for('eliminar_usuario', usuario_id=u.id) }}" style="display:inline;"
+                                      onsubmit="return confirm('¿Eliminar a {{ u.nombre_usuario }}?')">
+                                    <button type="submit" class="btn-delete">🗑 Eliminar</button>
+                                </form>
+                                {% else %}
+                                <span style="color:rgba(255,255,255,0.25);font-size:0.8rem;">Tú</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        
+        <div class="card">
+            <h2><span class="card-icon">📋</span> Registro Global de Actividades</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Operario</th>
+                            <th>Máquina</th>
+                            <th>Actividad</th>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody id="body-todos-registros">
+                        <tr class="empty-row"><td colspan="5">Cargando…</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        {% endif %}
+
     </div>
 
     <script>
@@ -847,28 +743,75 @@
             fetch('/api/sensores')
                 .then(r => r.json())
                 .then(data => {
-                    document.getElementById('val-temp').textContent = data.temperatura;
+                    document.getElementById('val-temp').textContent    = data.temperatura;
                     document.getElementById('val-presion').textContent = data.presion;
-                    document.getElementById('val-estado').textContent = data.estado;
+                    document.getElementById('val-estado').textContent  = data.estado;
 
                     const estado = data.estado.toLowerCase();
-                    const cards = ['card-temp', 'card-presion', 'card-estado'];
-                    cards.forEach(id => {
-                        const el = document.getElementById(id);
-                        el.className = 'sensor-card ' + estado;
+                    ['card-temp', 'card-presion', 'card-estado'].forEach(id => {
+                        document.getElementById(id).className = 'sensor-card ' + estado;
                     });
-
-                    const dot = document.getElementById('status-dot');
-                    dot.className = 'status-dot ' + estado;
+                    document.getElementById('status-dot').className = 'status-dot ' + estado;
 
                     const ahora = new Date();
                     document.getElementById('sensor-time').textContent =
                         ahora.toLocaleTimeString('es-ES', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
                 })
-                .catch(err => console.error('Error sensores:', err));
+                .catch(() => {});
+        }
+
+        function cargarMisRegistros() {
+            const tbody = document.getElementById('body-mis-registros');
+            if (!tbody) return;
+
+            fetch('/mis_registros')
+                .then(r => r.json())
+                .then(data => {
+                    if (!data.length) {
+                        tbody.innerHTML = '<tr class="empty-row"><td colspan="4">Sin actividades registradas aún.</td></tr>';
+                        return;
+                    }
+                    tbody.innerHTML = data.map(r => `
+                        <tr>
+                            <td>#${r.id}</td>
+                            <td>${r.maquina}</td>
+                            <td>${r.actividad}</td>
+                            <td>${r.fecha}</td>
+                        </tr>`).join('');
+                })
+                .catch(() => {
+                    tbody.innerHTML = '<tr class="empty-row"><td colspan="4">Error al cargar registros.</td></tr>';
+                });
+        }
+
+        function cargarTodosRegistros() {
+            const tbody = document.getElementById('body-todos-registros');
+            if (!tbody) return;
+
+            fetch('/todos_los_registros')
+                .then(r => r.json())
+                .then(data => {
+                    if (!data.length) {
+                        tbody.innerHTML = '<tr class="empty-row"><td colspan="5">Sin actividades registradas aún.</td></tr>';
+                        return;
+                    }
+                    tbody.innerHTML = data.map(r => `
+                        <tr>
+                            <td>#${r.id}</td>
+                            <td>${r.usuario}</td>
+                            <td>${r.maquina}</td>
+                            <td>${r.actividad}</td>
+                            <td>${r.fecha}</td>
+                        </tr>`).join('');
+                })
+                .catch(() => {
+                    tbody.innerHTML = '<tr class="empty-row"><td colspan="5">Error al cargar registros.</td></tr>';
+                });
         }
 
         actualizarSensores();
+        cargarMisRegistros();
+        cargarTodosRegistros();
         setInterval(actualizarSensores, 5000);
     </script>
 </body>
