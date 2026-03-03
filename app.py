@@ -42,6 +42,11 @@ class RegistroActividad(db.Model):
     actividad   = db.Column(db.String(300), nullable=False)
     fecha       = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
+class Incidencia(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    detalles = db.Column(db.String(200), nullable=False)
+    estado = db.Column(db.String(20), default='Abierta')
+    fecha = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
 # RUTAS DE AUTENTICACIÓN
 @app.route('/')
@@ -231,8 +236,12 @@ def todos_los_registros():
 # API SENSORES
  
 
+# Variable global para evitar generar incidencias repetidas constantemente
+ESTADO_ANTERIOR_SENSOR = 'NORMAL'
+
 @app.route('/api/sensores')
 def api_sensores():
+    global ESTADO_ANTERIOR_SENSOR
     if 'usuario_id' not in session:
         return jsonify({'error': 'No autorizado'}), 401
 
@@ -241,14 +250,19 @@ def api_sensores():
 
     if temperatura > 85.0 or presion > 130.0:
         estado = 'CRITICO'
+        # Logica heredada de Tkinter: solo registrar si acaba de entrar en estado critico
+        if ESTADO_ANTERIOR_SENSOR != 'CRITICO':
+            nueva_incidencia = Incidencia(detalles=f"Temp: {temperatura}C, Presion: {presion}PSI")
+            db.session.add(nueva_incidencia)
+            db.session.commit()
     elif temperatura > 70.0 or presion > 100.0:
         estado = 'ADVERTENCIA'
     else:
         estado = 'NORMAL'
 
+    ESTADO_ANTERIOR_SENSOR = estado
+
     return jsonify({'temperatura': temperatura, 'presion': presion, 'estado': estado})
-
-
  
 # DATOS INICIALES
  
@@ -280,6 +294,30 @@ def seed_maquinas():
     else:
         print("[INFO] Máquinas ya existentes en la base de datos.")
 
+@app.route('/api/incidencias')
+def api_incidencias():
+    if 'usuario_id' not in session:
+        return jsonify({'error': 'No autorizado'}), 401
+    
+    incidencias = Incidencia.query.order_by(Incidencia.fecha.desc()).limit(50).all()
+    return jsonify([{
+        'id': i.id,
+        'detalles': i.detalles,
+        'estado': i.estado,
+        'fecha': i.fecha.strftime('%H:%M:%S')
+    } for i in incidencias])
+
+@app.route('/cerrar_incidencia/<int:incidencia_id>', methods=['POST'])
+def cerrar_incidencia(incidencia_id):
+    if 'usuario_id' not in session or session.get('rol') != 'jefe_operarios':
+        return jsonify({'error': 'No autorizado'}), 403
+    
+    incidencia = Incidencia.query.get(incidencia_id)
+    if incidencia and incidencia.estado == 'Abierta':
+        incidencia.estado = 'Cerrada'
+        db.session.commit()
+        return jsonify({'success': True})
+    return jsonify({'error': 'Incidencia no encontrada o ya cerrada'}), 400
 
 if __name__ == '__main__':
     with app.app_context():

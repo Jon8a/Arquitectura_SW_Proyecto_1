@@ -628,6 +628,24 @@
                 </table>
             </div>
         </div>
+        <div class="card">
+            <h2><span class="card-icon">⚠️</span> Incidencias Registradas (Solo Lectura)</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Hora</th>
+                            <th>Detalles Técnicos</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="body-incidencias-operario">
+                        <tr class="empty-row"><td colspan="4">Cargando incidencias...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
         {% endif %}
 
@@ -733,12 +751,83 @@
                 </table>
             </div>
         </div>
-
+        <div class="card">
+            <h2><span class="card-icon">🚨</span> Gestion de Incidencias</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Hora</th>
+                            <th>Detalles Técnicos</th>
+                            <th>Estado</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="body-incidencias-jefe">
+                        <tr class="empty-row"><td colspan="5">Cargando incidencias...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
         {% endif %}
 
     </div>
 
     <script>
+        function cargarIncidencias() {
+            fetch('/api/incidencias')
+                .then(r => r.json())
+                .then(data => {
+                    // Pintar tabla operario si existe en el DOM
+                    const tbodyOp = document.getElementById('body-incidencias-operario');
+                    if (tbodyOp) {
+                        if (!data.length) {
+                            tbodyOp.innerHTML = '<tr class="empty-row"><td colspan="4">Sin incidencias registradas.</td></tr>';
+                        } else {
+                            tbodyOp.innerHTML = data.map(i => `
+                                <tr>
+                                    <td>#${i.id}</td>
+                                    <td>${i.fecha}</td>
+                                    <td>${i.detalles}</td>
+                                    <td><span class="role-tag ${i.estado === 'Abierta' ? 'jefe_operarios' : 'operario'}">${i.estado}</span></td>
+                                </tr>`).join('');
+                        }
+                    }
+
+                    // Pintar tabla jefe si existe en el DOM
+                    const tbodyJefe = document.getElementById('body-incidencias-jefe');
+                    if (tbodyJefe) {
+                        if (!data.length) {
+                            tbodyJefe.innerHTML = '<tr class="empty-row"><td colspan="5">Sin incidencias registradas.</td></tr>';
+                        } else {
+                            tbodyJefe.innerHTML = data.map(i => `
+                                <tr>
+                                    <td>#${i.id}</td>
+                                    <td>${i.fecha}</td>
+                                    <td>${i.detalles}</td>
+                                    <td><span class="role-tag ${i.estado === 'Abierta' ? 'jefe_operarios' : 'operario'}">${i.estado}</span></td>
+                                    <td>
+                                        ${i.estado === 'Abierta' 
+                                            ? `<button class="btn-delete" style="background: rgba(46,213,115,0.1); color: #5dde8e; border-color: rgba(46,213,115,0.2);" onclick="cerrarIncidencia(${i.id})">Cerrar</button>` 
+                                            : `<span style="color:rgba(255,255,255,0.25);font-size:0.8rem;">Cerrada</span>`
+                                        }
+                                    </td>
+                                </tr>`).join('');
+                        }
+                    }
+                })
+                .catch(() => console.error("Error cargando incidencias"));
+        }
+
+        function cerrarIncidencia(id) {
+            if(!confirm("¿Deseas dar por cerrada esta incidencia?")) return;
+            fetch(`/cerrar_incidencia/${id}`, { method: 'POST' })
+                .then(r => r.json())
+                .then(data => {
+                    if(data.success) cargarIncidencias();
+                });
+        }
         function actualizarSensores() {
             fetch('/api/sensores')
                 .then(r => r.json())
@@ -813,6 +902,8 @@
         cargarMisRegistros();
         cargarTodosRegistros();
         setInterval(actualizarSensores, 5000);
+        cargarIncidencias();
+        setInterval(cargarIncidencias, 5000);
     </script>
 </body>
 </html>
