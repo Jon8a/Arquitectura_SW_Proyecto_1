@@ -134,6 +134,18 @@
         .btn-progress { padding:10px 22px; background:linear-gradient(135deg,#ff9f43,#e0852c); color:#fff; border:none; border-radius:10px; font-family:'Inter',sans-serif; font-size:.85rem; font-weight:600; cursor:pointer; }
         .btn-progress:hover { transform:translateY(-1px); }
         @media(max-width:768px) { .sensor-grid,.form-grid{grid-template-columns:1fr} .stats-grid{grid-template-columns:1fr 1fr} .header{flex-direction:column;gap:12px;padding:16px} .header-right{width:100%;justify-content:space-between} }
+        th { transition: color 0.2s; position: relative; }
+        th:hover { color: rgba(255,255,255,0.8); }
+        th.sort-asc::after  { content: ' ▲'; color: #667eea; }
+        th.sort-desc::after { content: ' ▼'; color: #667eea; }
+        .pagination-controls { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: rgba(0,0,0,.15); border-radius: 0 0 16px 16px; margin-top: -8px; margin-bottom: 24px; border: 1px solid rgba(255,255,255,.08); border-top: none; }
+        .pagination-info { font-size: 0.8rem; color: rgba(255,255,255,.5); }
+        .pagination-buttons { display: flex; gap: 8px; align-items: center; }
+        .btn-page { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 6px; color: #fff; padding: 4px 10px; cursor: pointer; transition: all 0.2s; font-family: 'Inter', sans-serif;}
+        .btn-page:hover:not(:disabled) { background: rgba(255,255,255,.15); }
+        .btn-page:disabled { opacity: 0.3; cursor: not-allowed; }
+        .page-size-selector { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 6px; color: #fff; padding: 4px; font-size: 0.8rem; margin-left:8px; cursor: pointer; }
+        .page-size-selector option { background:#1a1a2e; }
     </style>
 </head>
 <body>
@@ -385,6 +397,155 @@
 </div>
 
 <script>
+    class TableManager {
+        constructor(tableWrapperId, defaultPageSize = 10) {
+            this.wrapperId = tableWrapperId;
+            this.wrapper = document.querySelector(tableWrapperId);
+            if (!this.wrapper) return;
+            this.table = this.wrapper.querySelector('table');
+            this.tbody = this.table.querySelector('tbody');
+            this.headers = Array.from(this.table.querySelectorAll('th'));
+            this.pageSize = defaultPageSize;
+            this.currentPage = 1;
+            this.sortIdx = -1;
+            this.sortAsc = true;
+            this.buildControls();
+            this.bindHeaders();
+        }
+        buildControls() {
+            this.controls = document.createElement('div');
+            this.controls.className = 'pagination-controls';
+            this.controls.innerHTML = `
+            <div class="pagination-info">Mostrando <span class="page-start">0</span> - <span class="page-end">0</span> de <span class="page-total">0</span>
+                <select class="page-size-selector">
+                    <option value="5">5 / pág</option>
+                    <option value="10" selected>10 / pág</option>
+                    <option value="25">25 / pág</option>
+                    <option value="50">50 / pág</option>
+                    <option value="999999">Todas</option>
+                </select>
+            </div>
+            <div class="pagination-buttons">
+                <button class="btn-page prev-page">◀</button>
+                <span class="page-current" style="font-size:0.85rem; color:#fff; align-self:center; margin:0 4px;">1</span>
+                <button class="btn-page next-page">▶</button>
+            </div>
+        `;
+            this.wrapper.parentNode.insertBefore(this.controls, this.wrapper.nextSibling);
+
+            this.controls.querySelector('.prev-page').onclick = () => { this.currentPage--; this.render(); };
+            this.controls.querySelector('.next-page').onclick = () => { this.currentPage++; this.render(); };
+            const sel = this.controls.querySelector('.page-size-selector');
+            sel.value = this.pageSize;
+            sel.onchange = (e) => {
+                this.pageSize = parseInt(e.target.value);
+                this.currentPage = 1;
+                this.render();
+            };
+        }
+        bindHeaders() {
+            this.headers.forEach((th, idx) => {
+                if (th.textContent.trim() === 'Acción' || th.textContent.trim() === 'Acciones') return;
+                th.style.cursor = 'pointer';
+                th.title = 'Clic para ordenar';
+                th.onclick = () => {
+                    if (this.sortIdx === idx) {
+                        this.sortAsc = !this.sortAsc;
+                    } else {
+                        this.sortIdx = idx;
+                        this.sortAsc = true;
+                    }
+                    this.headers.forEach(h => h.classList.remove('sort-asc', 'sort-desc'));
+                    th.classList.add(this.sortAsc ? 'sort-asc' : 'sort-desc');
+                    this.sortData();
+                };
+            });
+        }
+        sortData() {
+            if (this.sortIdx === -1) return;
+            let rows = Array.from(this.tbody.querySelectorAll('tr:not(.empty-row)'));
+            if (rows.length === 0) return;
+
+            rows.sort((a, b) => {
+                let va = a.children[this.sortIdx].textContent.trim();
+                let vb = b.children[this.sortIdx].textContent.trim();
+
+                // Extracción numérica si es #ID o termina en min/h
+                let numa = parseFloat(va.replace(/[^0-9.-]+/g, ""));
+                let numb = parseFloat(vb.replace(/[^0-9.-]+/g, ""));
+                if (va.startsWith('#') || va.endsWith('min') || va.endsWith('h')) {
+                    if (!isNaN(numa) && !isNaN(numb)) {
+                        return this.sortAsc ? (numa - numb) : (numb - numa);
+                    }
+                }
+                // Heurística de fechas (dd/mm/yyyy hh:mm)
+                let da = va.match(/^(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2})$/);
+                let db = vb.match(/^(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2})$/);
+                if (da && db) {
+                    let dDateA = new Date(da[3], da[2] - 1, da[1], da[4], da[5]).getTime();
+                    let dDateB = new Date(db[3], db[2] - 1, db[1], db[4], db[5]).getTime();
+                    return this.sortAsc ? dDateA - dDateB : dDateB - dDateA;
+                }
+
+                return this.sortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
+            });
+
+            rows.forEach(r => this.tbody.appendChild(r));
+            this.currentPage = 1;
+            this.render();
+        }
+        render() {
+            let rows = Array.from(this.tbody.querySelectorAll('tr:not(.empty-row)'));
+            let total = rows.length;
+            if (total === 0) {
+                this.controls.style.display = 'none';
+                return;
+            }
+            this.controls.style.display = 'flex';
+            let totalPages = Math.ceil(total / this.pageSize);
+            if (this.currentPage > totalPages) this.currentPage = Math.max(1, totalPages);
+            if (this.currentPage < 1) this.currentPage = 1;
+
+            let start = (this.currentPage - 1) * this.pageSize;
+            let end = start + this.pageSize;
+
+            rows.forEach((r, idx) => {
+                if (idx >= start && idx < end) r.style.display = '';
+                else r.style.display = 'none';
+            });
+
+            this.controls.querySelector('.page-start').textContent = (total > 0 ? start + 1 : 0);
+            this.controls.querySelector('.page-end').textContent = Math.min(end, total);
+            this.controls.querySelector('.page-total').textContent = total;
+            this.controls.querySelector('.page-current').textContent = this.currentPage + ' / ' + totalPages;
+            this.controls.querySelector('.prev-page').disabled = this.currentPage <= 1;
+            this.controls.querySelector('.next-page').disabled = this.currentPage >= totalPages;
+        }
+    }
+
+    const tManagers = {};
+
+    function initManagers() {
+        let idx = 0;
+        document.querySelectorAll('.table-wrapper').forEach((el) => {
+            let id = el.id || ('tw-' + idx++);
+            el.id = id;
+            tManagers[id] = new TableManager('#' + id, 10);
+            tManagers[id].render();
+        });
+    }
+
+    function updateManagerFor(tbodyId) {
+        let tbody = document.getElementById(tbodyId);
+        if (tbody) {
+            let wr = tbody.closest('.table-wrapper');
+            if (wr && wr.id && tManagers[wr.id]) {
+                tManagers[wr.id].sortData(); // Apply format if it was sorted
+                tManagers[wr.id].render();   // render corresponding page
+            }
+        }
+    }
+
 function actualizarSensores() {
     fetch('/api/sensores').then(r=>r.json()).then(data=>{
         document.getElementById('val-temp').textContent    = data.temperatura;
@@ -404,13 +565,15 @@ function cargarMisRegistros(){
     fetch('/mis_registros').then(r=>r.json()).then(data=>{
         if(!data.length){t.innerHTML='<tr class="empty-row"><td colspan="4">Sin actividades aún.</td></tr>';return;}
         t.innerHTML=data.map(r=>`<tr><td>#${r.id}</td><td>${r.maquina}</td><td>${r.actividad}</td><td>${r.fecha}</td></tr>`).join('');
+        updateManagerFor('body-mis-registros');
     }).catch(()=>{});
 }
 function cargarMisIncidencias(){
     const t=document.getElementById('body-mis-incidencias'); if(!t)return;
     fetch('/mis_incidencias').then(r=>r.json()).then(data=>{
         if(!data.length){t.innerHTML='<tr class="empty-row"><td colspan="7">Sin incidencias aún.</td></tr>';return;}
-        t.innerHTML=data.map(i=>`<tr><td>#${i.id}</td><td>${i.titulo}</td><td>${i.maquina}</td><td>${sevBadge(i.severidad)}</td><td>${estBadge(i.estado)}</td><td>${i.fecha_apertura}</td><td>${i.tiempo_resolucion}</td></tr>`).join('');
+        t.innerHTML = data.map(i => `<tr><td>#${i.id}</td><td>${i.titulo}</td><td>${i.maquina}</td><td>${sevBadge(i.severidad)}</td><td>${estBadge(i.estado)}</td><td>${i.fecha_apertura}</td><td>${i.tiempo_resolucion || '—'}</td></tr>`).join('');
+        updateManagerFor('body-mis-incidencias');
     }).catch(()=>{});
 }
 function cargarTodasIncidencias(){
@@ -423,6 +586,7 @@ function cargarTodasIncidencias(){
                 :`<span style="color:rgba(255,255,255,.25);font-size:.8rem;">Cerrada</span>`;
             return `<tr><td>#${i.id}</td><td>${i.operario}</td><td>${i.maquina}</td><td>${i.titulo}</td><td>${sevBadge(i.severidad)}</td><td>${estBadge(i.estado)}</td><td>${i.fecha_apertura}</td><td>${i.tiempo_resolucion}</td><td>${accion}</td></tr>`;
         }).join('');
+        updateManagerFor('body-todas-incidencias');
     }).catch(()=>{});
 }
 function cargarTodosRegistros(){
@@ -430,6 +594,7 @@ function cargarTodosRegistros(){
     fetch('/todos_los_registros').then(r=>r.json()).then(data=>{
         if(!data.length){t.innerHTML='<tr class="empty-row"><td colspan="5">Sin actividades.</td></tr>';return;}
         t.innerHTML=data.map(r=>`<tr><td>#${r.id}</td><td>${r.usuario}</td><td>${r.maquina}</td><td>${r.actividad}</td><td>${r.fecha}</td></tr>`).join('');
+        updateManagerFor('body-todos-registros');
     }).catch(()=>{});
 }
 function renderBarras(id,obj){
@@ -462,6 +627,7 @@ function abrirModal(incId,titulo){
 function cerrarModal(){ document.getElementById('modal-incidencia').classList.remove('open'); }
 function enviarModal(estado){ document.getElementById('modal-estado-input').value=estado; document.getElementById('modal-form').submit(); }
 document.getElementById('modal-incidencia').addEventListener('click',function(e){ if(e.target===this)cerrarModal(); });
+    initManagers();
 actualizarSensores();
 cargarMisRegistros(); cargarMisIncidencias();
 cargarTodasIncidencias(); cargarTodosRegistros(); cargarMetricas();
