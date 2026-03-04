@@ -1,0 +1,4 @@
+Git: https://github.com/Jon8a/Arquitectura_SW_Proyecto_1
+
+Jira:https://opendeusto-team-b8j1prpj.atlassian.net/jira/software/c/projects/TM/boards/35/backlog?atlOrigin=eyJpIjoiMjI0ZmI2ODRmMGEyNDQ2N2JiZjIyOWFlYmU3NWM2YzMiLCJwIjoiaiJ9
+
