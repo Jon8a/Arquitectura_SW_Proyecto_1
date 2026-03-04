@@ -285,6 +285,18 @@ def abrir_incidencia():
         flash('Máquina no encontrada.', 'danger')
         return redirect(url_for('dashboard'))
 
+    # ── Comprobar duplicado ──────────────────────────────────────────
+    duplicada = Incidencia.query.filter(
+        Incidencia.maquina_id == maquina_id,
+        Incidencia.titulo.ilike(titulo),
+        Incidencia.estado.in_(['abierta', 'en_progreso'])
+    ).first()
+
+    if duplicada:
+        flash(f'Ya existe una incidencia activa con ese título en esa máquina (#{duplicada.id}).', 'danger')
+        return redirect(url_for('dashboard'))
+    # ────────────────────────────────────────────────────────────────
+
     db.session.add(Incidencia(
         usuario_id=session['usuario_id'],
         maquina_id=maquina_id,
